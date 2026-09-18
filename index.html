@@ -7,7 +7,7 @@
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Firebase SDK (Version 8 Compat để chạy trực tiếp trên file HTML đơn) -->
+    <!-- Firebase SDK (Version 8 Compat) -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
@@ -439,15 +439,14 @@
                 </div>
                 <div class="categories">
                     <button class="btn-category active" onclick="filterCategory('all', this)">Tất cả</button>
-                    <button class="btn-category" onclick="filterCategory('com_bd', this)">Cơm Bình Dân</button>
-                    <button class="btn-category" onclick="filterCategory('food', this)">Món Nước / Ăn Sáng</button>
-                    <button class="btn-category" onclick="filterCategory('snack', this)">Ăn Vặt</button>
-                    <button class="btn-category" onclick="filterCategory('drink', this)">Thức Uống</button>
+                    <button class="btn-category" onclick="filterCategory('ComTrua', this)">Cơm Bình Dân</button>
+                    <button class="btn-category" onclick="filterCategory('DoAnSang', this)">Món Nước / Ăn Sáng</button>
+                    <button class="btn-category" onclick="filterCategory('DoAnVat', this)">Ăn Vặt</button>
+                    <button class="btn-category" onclick="filterCategory('DoUong', this)">Thức Uống</button>
                 </div>
             </div>
 
             <div class="product-grid" id="productGrid">
-                <!-- Chờ dữ liệu từ Firebase -->
                 <p style="grid-column: 1/-1; text-align: center; color: #888; padding: 20px;">Đang kết nối dữ liệu Firebase...</p>
             </div>
         </div>
@@ -506,7 +505,6 @@
     </div>
 
     <script>
-        // 1. CHÈN CẤU HÌNH FIREBASE CỦA NGÀI VÀO ĐÂY
         const firebaseConfig = {
             apiKey: "AIzaSyAc_7KxgiWcp_w2kXn5_sblLqxbHhZs8HE",
             authDomain: "cantin-dh-nghean.firebaseapp.com",
@@ -518,40 +516,38 @@
             measurementId: "G-11VV47ZZQE"
         };
 
-        // Khởi tạo Firebase
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        // Thay thế đoạn khai báo biến products cũ bằng đoạn này:
-let products = [
-  // --- ĐỒ ĂN SÁNG ---
-  { id: "SP01", name: "Bánh mì trứng pa-tê", price: 15000, category: "DoAnSang", stock: 50, image: "https://images.unsplash.com/photo-1509722747041-616f39b57569?w=300" },
-  { id: "SP02", name: "Bánh mì xúc xích", price: 15000, category: "DoAnSang", stock: 40, image: "https://images.unsplash.com/photo-1509722747041-616f39b57569?w=300" },
-  { id: "SP03", name: "Xôi xéo thịt kho", price: 20000, category: "DoAnSang", stock: 35, image: "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=300" },
-  { id: "SP04", name: "Bún chả Nghệ An", price: 25000, category: "DoAnSang", stock: 30, image: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=300" },
-  { id: "SP05", name: "Phở bò tái nạm", price: 30000, category: "DoAnSang", stock: 25, image: "https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?w=300" },
+        const initialProducts = [
+            // --- ĐỒ ĂN SÁNG ---
+            { id: "SP01", name: "Bánh mì trứng pa-tê", price: 15000, category: "DoAnSang", stock: 50, image: "https://images.unsplash.com/photo-1509722747041-616f39b57569?w=300" },
+            { id: "SP02", name: "Bánh mì xúc xích", price: 15000, category: "DoAnSang", stock: 40, image: "https://images.unsplash.com/photo-1509722747041-616f39b57569?w=300" },
+            { id: "SP03", name: "Xôi xéo thịt kho", price: 20000, category: "DoAnSang", stock: 35, image: "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=300" },
+            { id: "SP04", name: "Bún chả Nghệ An", price: 25000, category: "DoAnSang", stock: 30, image: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=300" },
+            { id: "SP05", name: "Phở bò tái nạm", price: 30000, category: "DoAnSang", stock: 25, image: "https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?w=300" },
 
-  // --- CƠM TRƯA ---
-  { id: "SP06", name: "Cơm gà sốt mắm", price: 25000, category: "ComTrua", stock: 45, image: "https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=300" },
-  { id: "SP07", name: "Cơm sườn nướng", price: 30000, category: "ComTrua", stock: 40, image: "https://images.unsplash.com/photo-1544025162-d76694265947?w=300" },
-  { id: "SP08", name: "Cơm cá kho tộ", price: 25000, category: "ComTrua", stock: 30, image: "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=300" },
-  { id: "SP09", name: "Cơm thịt kho trứng", price: 25000, category: "ComTrua", stock: 35, image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300" },
-  { id: "SP10", name: "Cơm đậu phụ sốt cà", price: 20000, category: "ComTrua", stock: 30, image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300" },
+            // --- CƠM TRƯA ---
+            { id: "SP06", name: "Cơm gà sốt mắm", price: 25000, category: "ComTrua", stock: 45, image: "https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=300" },
+            { id: "SP07", name: "Cơm sườn nướng", price: 30000, category: "ComTrua", stock: 40, image: "https://images.unsplash.com/photo-1544025162-d76694265947?w=300" },
+            { id: "SP08", name: "Cơm cá kho tộ", price: 25000, category: "ComTrua", stock: 30, image: "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=300" },
+            { id: "SP09", name: "Cơm thịt kho trứng", price: 25000, category: "ComTrua", stock: 35, image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300" },
+            { id: "SP10", name: "Cơm đậu phụ sốt cà", price: 20000, category: "ComTrua", stock: 30, image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300" },
 
-  // --- ĐỒ ƯỐNG ---
-  { id: "SP11", name: "Cà phê sữa đá", price: 15000, category: "DoUong", stock: 60, image: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=300" },
-  { id: "SP12", name: "Cà phê đen đá", price: 12000, category: "DoUong", stock: 50, image: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=300" },
-  { id: "SP13", name: "Trà sữa trân châu", price: 20000, category: "DoUong", stock: 50, image: "https://images.unsplash.com/photo-1558857563-b371033873b8?w=300" },
-  { id: "SP14", name: "Trà đào sả tắc", price: 18000, category: "DoUong", stock: 45, image: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=300" },
-  { id: "SP15", name: "Trà chanh đá lạnh", price: 10000, category: "DoUong", stock: 100, image: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=300" },
-  { id: "SP16", name: "Nước ngọt lon (Sting/Coca)", price: 12000, category: "DoUong", stock: 80, image: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=300" },
+            // --- ĐỒ ƯỐNG ---
+            { id: "SP11", name: "Cà phê sữa đá", price: 15000, category: "DoUong", stock: 60, image: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=300" },
+            { id: "SP12", name: "Cà phê đen đá", price: 12000, category: "DoUong", stock: 50, image: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=300" },
+            { id: "SP13", name: "Trà sữa trân châu", price: 20000, category: "DoUong", stock: 50, image: "https://images.unsplash.com/photo-1558857563-b371033873b8?w=300" },
+            { id: "SP14", name: "Trà đào sả tắc", price: 18000, category: "DoUong", stock: 45, image: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=300" },
+            { id: "SP15", name: "Trà chanh đá lạnh", price: 10000, category: "DoUong", stock: 100, image: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=300" },
+            { id: "SP16", name: "Nước ngọt lon (Sting/Coca)", price: 12000, category: "DoUong", stock: 80, image: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=300" },
 
-  // --- ĐỒ ĂN VẶT ---
-  { id: "SP17", name: "Xúc xích rán", price: 10000, category: "DoAnVat", stock: 60, image: "https://images.unsplash.com/photo-1561758033-d89a9ad46330?w=300" },
-  { id: "SP18", name: "Cá viên chiên (1 xâu)", price: 10000, category: "DoAnVat", stock: 70, image: "https://images.unsplash.com/photo-1561758033-d89a9ad46330?w=300" },
-  { id: "SP19", name: "Khoai tây chiên", price: 15000, category: "DoAnVat", stock: 40, image: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=300" },
-  { id: "SP20", name: "Bánh gà chiên giòn", price: 12000, category: "DoAnVat", stock: 50, image: "https://images.unsplash.com/photo-1562967914-608f82629710?w=300" }
-];
+            // --- ĐỒ ĂN VẶT ---
+            { id: "SP17", name: "Xúc xích rán", price: 10000, category: "DoAnVat", stock: 60, image: "https://images.unsplash.com/photo-1561758033-d89a9ad46330?w=300" },
+            { id: "SP18", name: "Cá viên chiên (1 xâu)", price: 10000, category: "DoAnVat", stock: 70, image: "https://images.unsplash.com/photo-1561758033-d89a9ad46330?w=300" },
+            { id: "SP19", name: "Khoai tây chiên", price: 15000, category: "DoAnVat", stock: 40, image: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=300" },
+            { id: "SP20", name: "Bánh gà chiên giòn", price: 12000, category: "DoAnVat", stock: 50, image: "https://images.unsplash.com/photo-1562967914-608f82629710?w=300" }
+        ];
 
         let products = [];
         let cart = [];
@@ -560,11 +556,10 @@ let products = [
         // LẮNG NGHE DỮ LIỆU REALTIME TỪ FIREBASE
         db.ref('products').on('value', (snapshot) => {
             const data = snapshot.val();
-            if (!data) {
-                // Lần đầu tiên chạy: Đẩy dữ liệu mẫu lên Firebase
+            // Nếu chưa có dữ liệu hoặc dữ liệu cũ bị lệch cấu trúc, cập nhật 20 món mới
+            if (!data || !Array.isArray(data) || data.length !== initialProducts.length || !data[0].image) {
                 db.ref('products').set(initialProducts);
             } else {
-                // Nhận dữ liệu tồn kho mới nhất từ đăm mây
                 products = data;
                 applyFilters();
             }
@@ -590,8 +585,8 @@ let products = [
                     : `<span class="stock-tag stock-available">Còn ${p.stock} suất</span>`;
 
                 grid.innerHTML += `
-                    <div class="product-card ${isOutOfStock ? 'out-of-stock' : ''}" onclick="${isOutOfStock ? '' : `addToCart(${p.id})`}">
-                        <img src="${p.img}" alt="${p.name}" class="product-img">
+                    <div class="product-card ${isOutOfStock ? 'out-of-stock' : ''}" onclick="${isOutOfStock ? '' : `addToCart('${p.id}')`}">
+                        <img src="${p.image}" alt="${p.name}" class="product-img">
                         <div class="product-title">${p.name}</div>
                         <div class="product-price">${p.price.toLocaleString('vi-VN')} đ</div>
                         ${stockHtml}
@@ -675,9 +670,9 @@ let products = [
                                 <div class="cart-item-price">${item.price.toLocaleString('vi-VN')} đ</div>
                             </div>
                             <div class="cart-item-qty">
-                                <button class="btn-qty" onclick="changeQuantity(${item.id}, -1)">-</button>
+                                <button class="btn-qty" onclick="changeQuantity('${item.id}', -1)">-</button>
                                 <span>${item.quantity}</span>
-                                <button class="btn-qty" onclick="changeQuantity(${item.id}, 1)">+</button>
+                                <button class="btn-qty" onclick="changeQuantity('${item.id}', 1)">+</button>
                             </div>
                         </div>
                     `;
@@ -698,7 +693,6 @@ let products = [
             btn.classList.add('active');
         }
 
-        // XỬ LÝ ĐẶT HÀNG & CẬP NHẬT TỒN KHO LÊN CLOUD FIREBASE
         function processCheckout() {
             if (cart.length === 0) {
                 alert('Vui lòng chọn ít nhất 1 món!');
@@ -721,19 +715,16 @@ let products = [
                 return;
             }
 
-            // Trừ kho trực tiếp trên Cloud Firebase
             cart.forEach(cartItem => {
                 const productIndex = products.findIndex(p => p.id === cartItem.id);
                 if (productIndex !== -1) {
                     const newStock = products[productIndex].stock - cartItem.quantity;
-                    // Đẩy tồn kho mới lên Database
                     db.ref(`products/${productIndex}`).update({
                         stock: newStock >= 0 ? newStock : 0
                     });
                 }
             });
 
-            // Lưu lịch sử đơn hàng lên Firebase (Nếu cần quản lý danh sách đơn)
             db.ref('orders').push({
                 phone: phone,
                 note: note,
