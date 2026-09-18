@@ -553,12 +553,11 @@
         let cart = [];
         let currentCategory = 'all';
 
-        // LẮNG NGHE DỮ LIỆU REALTIME TỪ FIREBASE
-        db.ref('products').on('value', (snapshot) => {
+        // LẮNG NGHE DỮ LIỆU REALTIME TỪ FIREBASE (Tạo node products_v2 để ép nạp 20 món mới)
+        db.ref('products_v2').on('value', (snapshot) => {
             const data = snapshot.val();
-            // Nếu chưa có dữ liệu hoặc dữ liệu cũ bị lệch cấu trúc, cập nhật 20 món mới
-            if (!data || !Array.isArray(data) || data.length !== initialProducts.length || !data[0].image) {
-                db.ref('products').set(initialProducts);
+            if (!data) {
+                db.ref('products_v2').set(initialProducts);
             } else {
                 products = data;
                 applyFilters();
@@ -719,7 +718,7 @@
                 const productIndex = products.findIndex(p => p.id === cartItem.id);
                 if (productIndex !== -1) {
                     const newStock = products[productIndex].stock - cartItem.quantity;
-                    db.ref(`products/${productIndex}`).update({
+                    db.ref(`products_v2/${productIndex}`).update({
                         stock: newStock >= 0 ? newStock : 0
                     });
                 }
