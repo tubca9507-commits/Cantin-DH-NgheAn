@@ -522,18 +522,8 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        // Danh sách sản phẩm mặc định ban đầu (dùng khi Database trống)
-        const initialProducts = [
-            { id: 101, name: "Cơm Bình Dân (2 Món)", price: 20000, category: "com_bd", stock: 15, img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=200" },
-            { id: 102, name: "Cơm Bình Dân (3 Món)", price: 25000, category: "com_bd", stock: 8, img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=200" },
-            { id: 103, name: "Cơm Tấm Sườn Trứng", price: 25000, category: "com_bd", stock: 0, img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=200" },
-            { id: 104, name: "Cơm Gà Chiên Mắm", price: 30000, category: "com_bd", stock: 5, img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=200" },
-            { id: 201, name: "Bún Bò Huế", price: 30000, category: "food", stock: 10, img: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=200" },
-            { id: 202, name: "Phở Bò Hà Nội", price: 30000, category: "food", stock: 0, img: "https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?w=200" },
-            { id: 301, name: "Bánh Mỳ Ốp La", price: 15000, category: "snack", stock: 14, img: "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=200" },
-            { id: 401, name: "Cà Phê Sữa Đá", price: 12000, category: "drink", stock: 30, img: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=200" },
-            { id: 402, name: "Cà Phê Đen Đá", price: 10000, category: "drink", stock: 25, img: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=200" }
-          
+        // Thay thế đoạn khai báo biến products cũ bằng đoạn này:
+let products = [
   // --- ĐỒ ĂN SÁNG ---
   { id: "SP01", name: "Bánh mì trứng pa-tê", price: 15000, category: "DoAnSang", stock: 50, image: "https://images.unsplash.com/photo-1509722747041-616f39b57569?w=300" },
   { id: "SP02", name: "Bánh mì xúc xích", price: 15000, category: "DoAnSang", stock: 40, image: "https://images.unsplash.com/photo-1509722747041-616f39b57569?w=300" },
@@ -551,18 +541,17 @@
   // --- ĐỒ ƯỐNG ---
   { id: "SP11", name: "Cà phê sữa đá", price: 15000, category: "DoUong", stock: 60, image: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=300" },
   { id: "SP12", name: "Cà phê đen đá", price: 12000, category: "DoUong", stock: 50, image: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=300" },
-  { id: "SP13", name: "Trà sữa chân trâu", price: 20000, category: "DoUong", stock: 50, image: "https://images.unsplash.com/photo-1558857563-b371033873b8?w=300" },
+  { id: "SP13", name: "Trà sữa trân châu", price: 20000, category: "DoUong", stock: 50, image: "https://images.unsplash.com/photo-1558857563-b371033873b8?w=300" },
   { id: "SP14", name: "Trà đào sả tắc", price: 18000, category: "DoUong", stock: 45, image: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=300" },
   { id: "SP15", name: "Trà chanh đá lạnh", price: 10000, category: "DoUong", stock: 100, image: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=300" },
-  { id: "SP16", name: "Nước ngọt lon (Sting/Cocacola)", price: 12000, category: "DoUong", stock: 80, image: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=300" },
+  { id: "SP16", name: "Nước ngọt lon (Sting/Coca)", price: 12000, category: "DoUong", stock: 80, image: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=300" },
 
   // --- ĐỒ ĂN VẶT ---
   { id: "SP17", name: "Xúc xích rán", price: 10000, category: "DoAnVat", stock: 60, image: "https://images.unsplash.com/photo-1561758033-d89a9ad46330?w=300" },
   { id: "SP18", name: "Cá viên chiên (1 xâu)", price: 10000, category: "DoAnVat", stock: 70, image: "https://images.unsplash.com/photo-1561758033-d89a9ad46330?w=300" },
   { id: "SP19", name: "Khoai tây chiên", price: 15000, category: "DoAnVat", stock: 40, image: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=300" },
   { id: "SP20", name: "Bánh gà chiên giòn", price: 12000, category: "DoAnVat", stock: 50, image: "https://images.unsplash.com/photo-1562967914-608f82629710?w=300" }
-
-        ];
+];
 
         let products = [];
         let cart = [];
