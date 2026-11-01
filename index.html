@@ -552,6 +552,73 @@
         let cart = [];
         let currentCategory = 'all';
 
+/* ===== LẮNG NGHE DỮ LIỆU REALTIME TỪ FIREBASE ===== */
+
+const productRef = db.ref("products_v2");
+
+productRef.on(
+    "value",
+    async (snapshot) => {
+        try {
+            const data = snapshot.val();
+
+            // 1. Nếu Firebase chưa có sản phẩm,
+            // khởi tạo bằng danh sách mặc định.
+            if (data === null) {
+                await productRef.set(initialProducts);
+                console.log("Đã khởi tạo danh sách sản phẩm.");
+                return;
+            }
+
+            // 2. Firebase có dữ liệu: chuyển về mảng.
+            const loadedProducts = Array.isArray(data)
+                ? data
+                : Object.values(data);
+
+            // 3. Kiểm tra dữ liệu hợp lệ.
+            const validProducts = loadedProducts.filter(
+                (product) =>
+                    product &&
+                    product.id &&
+                    product.name &&
+                    Number.isFinite(Number(product.price))
+            );
+
+            // Không thay danh sách đang dùng nếu dữ liệu không hợp lệ.
+            if (validProducts.length === 0) {
+                console.error(
+                    "Firebase không có danh sách sản phẩm hợp lệ."
+                );
+                return;
+            }
+
+            // 4. Cập nhật danh sách đang sử dụng.
+            products = validProducts;
+
+            // 5. Vẽ lại giao diện sản phẩm.
+            applyFilters();
+
+            console.log(
+                "Đã tải",
+                products.length,
+                "sản phẩm từ Firebase."
+            );
+
+        } catch (error) {
+            console.error(
+                "Lỗi xử lý dữ liệu sản phẩm:",
+                error
+            );
+        }
+    },
+    (error) => {
+        console.error(
+            "Không thể đọc dữ liệu Firebase:",
+            error.message
+        );
+    }
+);
+
        // CẬP NHẬT MENU MỚI LÊN FIREBASE MỘT LẦN
 db.ref('products_v2').set(initialProducts)
     .then(() => {
