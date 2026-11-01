@@ -519,36 +519,35 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        const initialProducts = [
-            // --- ĐỒ ĂN SÁNG ---
-{ id: "SP01", name: "Bánh cuốn chả lụa", price: 20000, category: "DoAnSang", stock: 35, image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=300" },
-{ id: "SP02", name: "Bánh bao nhân thịt", price: 12000, category: "DoAnSang", stock: 40, image: "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=300" },
-{ id: "SP03", name: "Mì tôm trứng xúc xích", price: 18000, category: "DoAnSang", stock: 30, image: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=300" },
-{ id: "SP04", name: "Bánh giò nóng", price: 15000, category: "DoAnSang", stock: 25, image: "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=300" },
-{ id: "SP05", name: "Cháo gà hành tiêu", price: 20000, category: "DoAnSang", stock: 30, image: "https://images.unsplash.com/photo-1547592180-85f173990554?w=300" },
+       const initialProducts = [
+    // --- ĐỒ ĂN SÁNG ---
+    { id: "SP01", name: "Bánh cuốn chả lụa", price: 20000, category: "DoAnSang", stock: 35, image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=300" },
+    { id: "SP02", name: "Bánh bao nhân thịt", price: 12000, category: "DoAnSang", stock: 40, image: "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=300" },
+    { id: "SP03", name: "Mì tôm trứng xúc xích", price: 18000, category: "DoAnSang", stock: 30, image: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=300" },
+    { id: "SP04", name: "Bánh giò nóng", price: 15000, category: "DoAnSang", stock: 25, image: "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=300" },
+    { id: "SP05", name: "Cháo gà hành tiêu", price: 20000, category: "DoAnSang", stock: 30, image: "https://images.unsplash.com/photo-1547592180-85f173990554?w=300" },
 
-// --- CƠM TRƯA ---
-{ id: "SP06", name: "Cơm bò xào rau củ", price: 30000, category: "ComTrua", stock: 35, image: "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=300" },
-{ id: "SP07", name: "Cơm gà chiên giòn", price: 28000, category: "ComTrua", stock: 40, image: "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=300" },
-{ id: "SP08", name: "Cơm thịt rang cháy cạnh", price: 27000, category: "ComTrua", stock: 35, image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300" },
-{ id: "SP09", name: "Cơm tôm rim mặn ngọt", price: 32000, category: "ComTrua", stock: 25, image: "https://images.unsplash.com/photo-1559847844-5315695dadae?w=300" },
-{ id: "SP10", name: "Cơm trứng chiên thịt băm", price: 22000, category: "ComTrua", stock: 40, image: "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=300" },
+    // --- CƠM TRƯA ---
+    { id: "SP06", name: "Cơm bò xào rau củ", price: 30000, category: "ComTrua", stock: 35, image: "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=300" },
+    { id: "SP07", name: "Cơm gà chiên giòn", price: 28000, category: "ComTrua", stock: 40, image: "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=300" },
+    { id: "SP08", name: "Cơm thịt rang cháy cạnh", price: 27000, category: "ComTrua", stock: 35, image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300" },
+    { id: "SP09", name: "Cơm tôm rim mặn ngọt", price: 32000, category: "ComTrua", stock: 25, image: "https://images.unsplash.com/photo-1559847844-5315695dadae?w=300" },
+    { id: "SP10", name: "Cơm trứng chiên thịt băm", price: 22000, category: "ComTrua", stock: 40, image: "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=300" },
 
-// --- ĐỒ UỐNG ---
-{ id: "SP11", name: "Bạc xỉu đá", price: 18000, category: "DoUong", stock: 45, image: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=300" },
-{ id: "SP12", name: "Cacao sữa đá", price: 20000, category: "DoUong", stock: 40, image: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=300" },
-{ id: "SP13", name: "Trà vải hoa nhài", price: 22000, category: "DoUong", stock: 35, image: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=300" },
-{ id: "SP14", name: "Trà chanh mật ong", price: 15000, category: "DoUong", stock: 50, image: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=300" },
-{ id: "SP15", name: "Nước ép cam tươi", price: 22000, category: "DoUong", stock: 30, image: "https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=300" },
-{ id: "SP16", name: "Sinh tố bơ", price: 25000, category: "DoUong", stock: 25, image: "https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=300" },
+    // --- ĐỒ UỐNG ---
+    { id: "SP11", name: "Bạc xỉu đá", price: 18000, category: "DoUong", stock: 45, image: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=300" },
+    { id: "SP12", name: "Cacao sữa đá", price: 20000, category: "DoUong", stock: 40, image: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=300" },
+    { id: "SP13", name: "Trà vải hoa nhài", price: 22000, category: "DoUong", stock: 35, image: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=300" },
+    { id: "SP14", name: "Trà chanh mật ong", price: 15000, category: "DoUong", stock: 50, image: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=300" },
+    { id: "SP15", name: "Nước ép cam tươi", price: 22000, category: "DoUong", stock: 30, image: "https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=300" },
+    { id: "SP16", name: "Sinh tố bơ", price: 25000, category: "DoUong", stock: 25, image: "https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=300" },
 
-// --- ĐỒ ĂN VẶT ---
-{ id: "SP17", name: "Nem chua rán (5 chiếc)", price: 18000, category: "DoAnVat", stock: 40, image: "https://images.unsplash.com/photo-1562967914-608f82629710?w=300" },
-{ id: "SP18", name: "Gà viên chiên", price: 15000, category: "DoAnVat", stock: 45, image: "https://images.unsplash.com/photo-1562967914-608f82629710?w=300" },
-{ id: "SP19", name: "Phô mai que (3 chiếc)", price: 18000, category: "DoAnVat", stock: 35, image: "https://images.unsplash.com/photo-1639744091986-5e7f8c5c1b5b?w=300" },
-{ id: "SP20", name: "Bắp rang bơ", price: 10000, category: "DoAnVat", stock: 50, image: "https://images.unsplash.com/photo-1578849278619-e73505e9610f?w=300" }
-        ];
-
+    // --- ĐỒ ĂN VẶT ---
+    { id: "SP17", name: "Nem chua rán (5 chiếc)", price: 18000, category: "DoAnVat", stock: 40, image: "https://images.unsplash.com/photo-1562967914-608f82629710?w=300" },
+    { id: "SP18", name: "Gà viên chiên", price: 15000, category: "DoAnVat", stock: 45, image: "https://images.unsplash.com/photo-1562967914-608f82629710?w=300" },
+    { id: "SP19", name: "Phô mai que (3 chiếc)", price: 18000, category: "DoAnVat", stock: 35, image: "https://images.unsplash.com/photo-1639744091986-5e7f8c5c1b5b?w=300" },
+    { id: "SP20", name: "Bắp rang bơ", price: 10000, category: "DoAnVat", stock: 50, image: "https://images.unsplash.com/photo-1578849278619-e73505e9610f?w=300" }
+];
         let products = [];
         let cart = [];
         let currentCategory = 'all';
